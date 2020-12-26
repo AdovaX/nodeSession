@@ -1,8 +1,4 @@
-/*
- * Manage Session in Node.js and ExpressJS
- * Author : Shahid Shaikh
- * Version : 0.0.2
-*/
+ 
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -14,7 +10,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/views'));
 
-var sess; // global session, NOT recommended
+var sess;  
 
 router.get('/',(req,res) => {
 	sess = req.session;
@@ -26,7 +22,9 @@ router.get('/',(req,res) => {
 
 router.post('/login',(req,res) => {
 	sess = req.session;
-	sess.email = req.body.email;
+	var username = req.body.email;
+
+	sess.email = username;
 	res.end('done');
 });
 
@@ -53,6 +51,14 @@ router.get('/logout',(req,res) => {
 });
 
 app.use('/', router);
+
+
+function token(username){
+ let username = "GeeksforGeeks";  
+ let bufferObj = Buffer.from(originalString, "utf8"); 
+ let en_token = bufferObj.toString("base64"); 
+ return en_token;
+}
 
 app.listen(process.env.PORT || 3000,() => {
 	console.log(`App Started on PORT ${process.env.PORT || 3000}`);
